@@ -1,33 +1,25 @@
+const {app, BrowserWindow}=require('electron');
+const url  = require('url');
+const path =require('path');
 
-const { BrowserWindow, app, ipcMain, Notification } = require('electron');
-const path = require('path');
 
-const isDev = !app.isPackaged;
+function createMainWindow(){
+    const mainWindow= new BrowserWindow({
+        title :"Entry Managment App",
+        width:1000,
+        height:600
+    });
 
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    backgroundColor: "white",
-    webPreferences: {
-      nodeIntegration: false,
-      worldSafeExecuteJavaScript: true,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
+    mainWindow.webContents.openDevTools()
 
-  win.loadFile('index.html');
+    const startUrl=url.format({
+        pathname: path.join(__dirname,'./app/build/index.html'),
+        protocol:'file',
+    });
+
+
+    
+    mainWindow.loadURL(startUrl);
 }
 
-if (isDev) {
-  require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-  })
-}
-
-ipcMain.on('notify', (_, message) => {
-  new Notification({title: 'Notifiation', body: message}).show();
-})
-
-app.whenReady().then(createWindow)
+app.whenReady().then(createMainWindow);
