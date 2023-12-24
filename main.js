@@ -5,6 +5,7 @@ const path =require('path');
 
 function createMainWindow(){
     const mainWindow= new BrowserWindow({
+        titleBarStyle:"hidden",
         title :"Entry Managment App",
         width:1000,
         height:600
