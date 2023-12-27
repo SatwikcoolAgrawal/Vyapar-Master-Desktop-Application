@@ -9,7 +9,7 @@ const path =require('path');
 
 function createMainWindow(){
     const mainWindow= new BrowserWindow({
-        // titleBarStyle:"hidden",
+        titleBarStyle:"hidden",
         title :"Entry Managment App",
         width:1000,
         height:600,
@@ -17,6 +17,8 @@ function createMainWindow(){
         minHeight:300,
         webPreferences:{
             // devTools:false,
+            nodeIntegration:true,
+            contextIsolation:true,
             preload:path.join(__dirname,'preload.js')
         }
     });
@@ -24,7 +26,6 @@ function createMainWindow(){
 
     const startUrl=url.format({
         pathname: path.join(__dirname,'./app/build/index.html'),
-        protocol:'file',
     });
 
 
