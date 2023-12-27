@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+// import { Suspense, lazy } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import Layout from '../layout'
 import {Home} from '../pages'
