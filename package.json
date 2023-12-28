@@ -17,6 +17,7 @@
   "author": "team Enginiggers",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^9.2.2",
     "electron": "^28.1.0"
   }
 }
