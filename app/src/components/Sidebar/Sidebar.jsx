@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { Outlet } from 'react-router-dom';
 
 function Sidebar() {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
   const Menus = [
     { title: "Dashboard", src: "Chart_fill" },
@@ -22,14 +23,14 @@ function Sidebar() {
         } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
       >
         <img
-          src="./src/assets/control.png"
+          src={require("./assets/control.png")}
           className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
            border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open) } alt="1"
         />
         <div className="flex gap-x-4 items-center">
           <img
-            src="./src/assets/logo.png"
+            src={require("./assets/control.png")}
             className={`cursor-pointer duration-500 ${
               open && "rotate-[360deg]"
             }`} alt="1"
@@ -51,7 +52,7 @@ function Sidebar() {
                 index === 0 && "bg-light-white"
               } `}
             >
-              <img src={`./assets/${Menu.src}.png`} alt="1" />
+              <img src={require(`./assets/${Menu.src}.png`)} alt="1" />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 {Menu.title}
               </span>
@@ -59,9 +60,7 @@ function Sidebar() {
           ))}
         </ul>
       </div>
-      <div className="h-screen flex-1 p-7">
-        <h1 className="text-2xl font-semibold ">Home Page</h1>
-      </div>
+      <Outlet/>
     </div>
     </div>
   )
