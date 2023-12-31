@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build --prefix ./app",
     "start": "npm run build &&  electron .",
-    "dev:watch": "npx electronmon --trace-warnings ."
+    "dev:watch": "npx electronmon --trace-warnings .",
+    "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
   "keywords": [
     "Electron",
@@ -17,7 +18,9 @@
   "author": "team Enginiggers",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^9.2.2",
     "dotenv": "^16.3.1",
-    "electron": "^28.1.0"
+    "electron": "^28.1.0",
+    "electron-rebuild": "^3.2.9"
   }
 }

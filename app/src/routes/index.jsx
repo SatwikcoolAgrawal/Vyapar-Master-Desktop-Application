@@ -1,19 +1,18 @@
 // import { Suspense, lazy } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
+import About from '../components/About';
 import Layout from '../layout'
-import {Home} from '../pages'
+import Home from '../components/Home'
 export default function Router() {
     const routes = useRoutes([
         {
             path: "/",
             element: (
-                <Layout>
-                    <Outlet />
-                </Layout>
+                <Layout/>
             ),
             children: [
-                { element: <Navigate to="/" />, index: true },
-                {path:'home',element:<Home/>}
+                { path:"", element: <Home/>},
+                {path:"about",element:<About/>}
             ]
         },
     ]);

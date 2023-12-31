@@ -11,8 +11,8 @@ console.log(isDev);
 
 function createMainWindow(){
     const mainWindow= new BrowserWindow({
-        // titleBarStyle:"hidden",
-        autoHideMenuBar: true,
+        titleBarStyle:"hidden",
+        // autoHideMenuBar: true,
         title :"Entry Managment App",
         width:1000,
         height:600,
