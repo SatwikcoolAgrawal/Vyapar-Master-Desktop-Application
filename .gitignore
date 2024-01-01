@@ -1,3 +1,6 @@
+#
+/models/database.db
+
 # Logs
 logs
 *.log
