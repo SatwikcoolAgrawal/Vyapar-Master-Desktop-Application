@@ -33,16 +33,15 @@ function createMainWindow(){
     });
       
     mainWindow.loadURL(startUrl);
-
-
-    
+    mainWindow.on('ready-to-show',()=>{
+        mainWindow.show()
+    });
+   
     ipc.on('closeApp',(event)=>{
-        console.log('close App');
         mainWindow.close();
     })
 
     ipc.on('maximizeApp',(event)=>{
-        console.log('maximize App');
         if (mainWindow.isMaximized()){
             mainWindow.restore();
         }
@@ -52,12 +51,8 @@ function createMainWindow(){
     })
 
     ipc.on('minimizeApp',(event)=>{
-        console.log('minimize App')
-        mainWindow.minimize();
-    
+        mainWindow.minimize();        
     })
-
-    // mainWindow.on('ready-to-show',mainWindow.show());
 }
 
 
