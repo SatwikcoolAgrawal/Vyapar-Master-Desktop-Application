@@ -1,7 +1,8 @@
-const {app, BrowserWindow,session}=require('electron');
+const {app, BrowserWindow,ipcMain}=require('electron');
 const url  = require('url');
 const path =require('path');
 const dotenv = require('dotenv');
+const ipc=ipcMain
 dotenv.config();
 const isDev=process.env.NODE_ENV ==='DEV'
 
@@ -30,8 +31,49 @@ function createMainWindow(){
     const startUrl=url.format({
         pathname: path.join(__dirname,'./app/build/index.html'),
     });
-    
+      
     mainWindow.loadURL(startUrl);
+
+
+    
+    ipc.on('closeApp',(event)=>{
+        console.log('close App');
+        mainWindow.close();
+    })
+
+    ipc.on('maximizeApp',(event)=>{
+        console.log('maximize App');
+        if (mainWindow.isMaximized()){
+            mainWindow.restore();
+        }
+        else {
+        mainWindow.maximize();
+        }
+    })
+
+    ipc.on('minimizeApp',(event)=>{
+        console.log('minimize App')
+        mainWindow.minimize();
+    
+    })
+
+    // mainWindow.on('ready-to-show',mainWindow.show());
 }
 
-app.whenReady().then(createMainWindow);
+
+app.whenReady().then(() => {
+    createMainWindow()
+  
+    app.on('activate', function () {
+      if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
+    })
+  })
+  
+  app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit()
+  })
+
+ipc.handle('getAll',(event)=>{
+    console.log('hello');
+    return 0;
+})
