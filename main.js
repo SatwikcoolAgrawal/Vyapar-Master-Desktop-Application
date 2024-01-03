@@ -13,7 +13,11 @@ console.log(isDev);
 function createMainWindow(){
     const mainWindow= new BrowserWindow({
         titleBarStyle:"hidden",
-        // autoHideMenuBar: true,
+        titleBarOverlay:{
+            color: 'rgb(15,23,42)',
+            height:35,
+            symbolColor: '#fff',
+        },
         title :"Entry Managment App",
         width:1000,
         height:600,
@@ -36,23 +40,7 @@ function createMainWindow(){
     mainWindow.on('ready-to-show',()=>{
         mainWindow.show()
     });
-   
-    ipc.on('closeApp',(event)=>{
-        mainWindow.close();
-    })
 
-    ipc.on('maximizeApp',(event)=>{
-        if (mainWindow.isMaximized()){
-            mainWindow.restore();
-        }
-        else {
-        mainWindow.maximize();
-        }
-    })
-
-    ipc.on('minimizeApp',(event)=>{
-        mainWindow.minimize();        
-    })
 }
 
 

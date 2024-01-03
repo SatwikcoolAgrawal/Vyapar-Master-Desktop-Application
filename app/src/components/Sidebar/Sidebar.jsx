@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom';
+import './sidebar.css'
 
 function Sidebar() {
     const [open, setOpen] = useState(false);
@@ -7,17 +7,13 @@ function Sidebar() {
   const Menus = [
     { title: "Dashboard", src: "Chart_fill" },
     { title: "Inbox", src: "Chat" },
-    { title: "Accounts", src: "User", gap: true },
+    { title: "Accounts", src: "User"},
     { title: "Schedule ", src: "Calendar" },
-    { title: "Search", src: "Search" },
-    { title: "Analytics", src: "Chart" },
-    { title: "Files ", src: "Folder", gap: true },
-    { title: "Setting", src: "Setting" },
+    { title: "Search", src: "Search" }
   ];
   return (
-    <div>
-      <div className="flex">
-      <div
+      <div className="flex sticky" >
+      <div style={{height:'calc( 100vh - env(titlebar-area-height, var(--fallback-title-bar-height)) )'}}
         className={` ${
           open ? "w-72" : "w-20 "
         } bg-gray-400 h-screen p-5  pt-8 relative duration-300`}
@@ -43,7 +39,7 @@ function Sidebar() {
             Designer
           </h1>
         </div>
-        <ul className="pt-6">
+        <ul className="mt-6 h-3/4 overflow-auto overflow-x-hidden sidebarMenu">
           {Menus.map((Menu, index) => (
             <li
               key={index}
@@ -52,7 +48,7 @@ function Sidebar() {
                 index === 0 && "bg-light-white"
               } `}
             >
-              <img src={require(`./assets/${Menu.src}.png`)} alt="1" />
+              <img src={require(`./assets/${Menu.src}.png`)} alt={`${Menu.title}`} />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 {Menu.title}
               </span>
@@ -60,9 +56,7 @@ function Sidebar() {
           ))}
         </ul>
       </div>
-      <Outlet/>
-    </div>
-    </div>
+    </div> 
   )
 }
 
