@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 const ipc=ipcMain
 dotenv.config();
 const isDev=process.env.NODE_ENV ==='DEV'
-
 // const { session } = require('electron')
 
 console.log(isDev);
@@ -26,10 +25,11 @@ function createMainWindow(){
         webPreferences:{
             devTools:isDev,
             nodeIntegration:true,
-            contextIsolation:true,
+            contextIsolation:false,
             preload:path.join(__dirname,'preload.js')
         }
     });
+
     if (isDev) mainWindow.webContents.openDevTools()
 
     const startUrl=url.format({
