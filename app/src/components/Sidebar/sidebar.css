@@ -1,0 +1,7 @@
+.sidebarMenu{
+    scrollbar-width: 0%;
+}
+
+.sidebarMenu::-webkit-scrollbar{
+    display: none;
+}
