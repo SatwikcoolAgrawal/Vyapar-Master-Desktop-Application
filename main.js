@@ -20,12 +20,13 @@ function createMainWindow(){
         title :"Entry Managment App",
         width:1000,
         height:600,
-        minWidth:500,
-        minHeight:300,
+        minWidth:600,
+        minHeight:400,
         webPreferences:{
             devTools:isDev,
-            nodeIntegration:true,
-            contextIsolation:false,
+            nodeIntegration:false,
+            contextIsolation:true,
+            sandbox:false,
             preload:path.join(__dirname,'preload.js')
         }
     });

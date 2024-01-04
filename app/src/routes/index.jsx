@@ -1,31 +1,34 @@
-// import { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
-import About from '../components/About';
 import Layout from '../layout'
-import Home from '../components/Home.jsx'
-import Settings from '../pages/Settings';
-import Dashboard from '../pages/Dashboard';
-import User from '../pages/User';
-import Form from '../pages/Form';
-import Analytics from '../pages/Analytics';
-import Search from '../pages/Search';
+import Loading from '../loading'
+const Home = lazy(()=>import('../pages/Home')) ;
+const About = lazy(()=>import('../pages/About')) ;
+const Dashboard = lazy(()=>import('../pages/Dashboard')) ;
+const Settings = lazy(()=>import('../pages/Settings')) ;
+const User =  lazy(()=>import('../pages/User'));
+const Form = lazy(()=>import('../pages/Form'));
+const Analytics =lazy(()=>import('../pages/Analytics'));
+const History =lazy(()=>import('../pages/History'));
 
 export default function Router() {
     const routes = useRoutes([
         {
             path: "/",
             element: (
+                <Suspense fallback={<Loading/>}>
                 <Layout/>
+                </Suspense>
             ),
             children: [
-                {path:"", element: <Home/>},
+                {path:"",element: <Dashboard/>},
                 {path:"about",element:<About/>},
                 {path:"user",element:<User/>},
                 {path:"settings",element:<Settings/>},
                 {path:"form",element:<Form/>},
                 {path:"dashboard",element:<Dashboard/>},
                 {path:"analytics",element:<Analytics/>},
-                {path:"search",element:<Search/>},
+                {path:"history",element:<History/>},
             ]
         },
     ]);

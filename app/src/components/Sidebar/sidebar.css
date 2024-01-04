@@ -1,7 +1,35 @@
+
+.sidebarContainer{
+    position: sticky;
+    height: calc(100vh - env(titlebar-area-height, var(--fallback-title-bar-height)));
+    background: #242c44;
+    top:env(titlebar-area-height, var(--fallback-title-bar-height));
+    transition: width 700ms ease;
+}
+
 .sidebarMenu{
     scrollbar-width: 0%;
 }
 
 .sidebarMenu::-webkit-scrollbar{
     display: none;
+}
+
+
+.itemActive li{
+    position: relative;
+    background: #474c5e ;
+   
+}
+
+.itemActive li::after{
+    border-radius: 5px;
+    content: ""; 
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    width: 2px;
+    height: 80%;
+    
+    background: #2dd4bf;
 }
