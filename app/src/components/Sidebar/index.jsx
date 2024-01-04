@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './sidebar.css'
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { BsClipboardData, } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LiaClipboardListSolid } from "react-icons/lia";
@@ -16,25 +16,24 @@ function Sidebar() {
   const Menus = [
     { title: "Dashboard", src: BsClipboardData },
     { title: "Form", src: LiaClipboardListSolid },
-    { title: "Search", src: FaSearch },
+    { title: "History", src: FaSearch },
     { title: "Analytics", src: IoMdAnalytics },
     { title: "User", src: FaRegUser, gap: true },
     { title: "Settings", src: IoSettingsOutline },
   ];
   return (
-    <div className='relative z-10'>
-      <div className="flex">
+   
       <div
-        className={` ${
+        className={`sidebarContainer ${
           open ? "w-60" : "w-20"
-        } h-screen p-5 pt-8 relative duration-700 `}
-        style = {{backgroundColor:"#242c44"}}
+        } p-5 pt-8 `}
+        
       >
         <button
-          className={`absolute cursor-pointer -right-3 top-9  bg-white bg-opacity-50
-           rounded-full  ${!open && "rotate-180"}`}
+          className={`absolute cursor-pointer -right-3 top-10  bg-white duration-500
+           rounded-full  ${!open && "rotate-180"}` }
           onClick={() => setOpen(!open) } alt="1"
-        ><IoIosArrowDropleftCircle size="24" color='#242c44'/></button>
+        ><IoIosArrowDropleftCircle size="24" className='text-teal-400'/></button>
         <div className="flex gap-x-4 items-center">
           {
             open ? 
@@ -49,27 +48,29 @@ function Sidebar() {
           }
           
         </div>
-        <ul className="mt-6 h-3/4 overflow-auto overflow-x-hidden sidebarMenu">
+        <ul className="mt-6 h-3/4 overflow-auto sidebarMenu">
           {Menus.map((Menu, index) => (
+            <NavLink to={`/${Menu.title.toLowerCase()}`}    key={index} className={({ isActive, isPending }) => isActive ? "itemActive" : ""}>
             <li
-              key={index}
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+            
+              className={`flex  rounded-md p-2 cursor-pointer text-gray-300 text-sm items-center gap-x-4 
               ${Menu.gap ? "mt-9" : "mt-2"} ${
                 index === 0 && "bg-light-white"
               } `}
             >
-              <Link to={`/${Menu.title.toLowerCase()}`}>
-                <div className='flex items-center'><Menu.src size="23" />
-                <span className={`ml-2 ${!open && "hidden"} origin-left text-base duration-200`}>
-                   {Menu.title}
-                </span></div>
-              </Link>
+                <div className={`flex items-center ${open && "pl-2"}`}>
+                  <Menu.src size="23"/>
+                  <div className={`ml-2 ${!open && "hidden"} origin-left text-base duration-200 ease-out`}>
+                    {Menu.title}
+                  </div>
+                </div>
             </li>
+              </NavLink>
           ))}
         </ul>
       </div>
-    </div>
-    </div>
+     
+    
   )
 }
 

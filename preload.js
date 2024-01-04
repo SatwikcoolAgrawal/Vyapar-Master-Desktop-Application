@@ -1,7 +1,6 @@
 const {contextBridge, ipcMain, ipcRenderer}= require('electron')
 const ipc=ipcRenderer
-const dbmgr=require('./models/connection')
-const filter = require('./models/queries');
+const {filter}=require('./models')
 
 // conditions = [
 //     {column : 'ID', operator : '=', value : Number(123)},
