@@ -33,10 +33,14 @@ function createMainWindow(){
 
     if (isDev) mainWindow.webContents.openDevTools()
 
-    const startUrl=url.format({
-        pathname: path.join(__dirname,'./app/build/index.html'),
-    });
-      
+
+    const startUrl= app.isPackaged
+    ? url.format({
+        pathname: path.join(__dirname, '../build/index.html'),
+        protocol: "file:"
+      })
+    : "http://localhost:3000";
+    
     mainWindow.loadURL(startUrl);
     mainWindow.on('ready-to-show',()=>{
         mainWindow.show()
