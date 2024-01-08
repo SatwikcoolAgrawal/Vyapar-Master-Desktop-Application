@@ -1,6 +1,6 @@
-const {contextBridge, ipcMain, ipcRenderer}= require('electron')
+const {contextBridge,ipcRenderer}= require('electron')
 const ipc=ipcRenderer
-const {filter}=require('./models')
+const {filter}=require('../models')
 
 // conditions = [
 //     {column : 'ID', operator : '=', value : Number(123)},
