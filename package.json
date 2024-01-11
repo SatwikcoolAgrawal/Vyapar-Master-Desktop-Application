@@ -9,11 +9,13 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "apexcharts": "^3.45.1",
     "better-sqlite3": "^9.2.2",
     "dotenv": "^16.3.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.21.1",
@@ -22,12 +24,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "package": "electron-builder",
+    "package": "npm run build && electron-builder",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "rebuild": "electron-rebuild -f -w better-sqlite3",
     "dev:watch": "concurrently -k \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electronmon .\"",
     "electron": "concurrently -k \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "postinstall": "electron-builder install-app-deps"
@@ -62,30 +63,38 @@
     "cross-env": "^7.0.3",
     "electron": "^28.1.1",
     "electron-builder": "^24.9.1",
-    "electron-rebuild": "^3.2.9",
     "electronmon": "^2.0.2",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
     "wait-on": "^7.2.0"
   },
   "build": {
-    "appId": "com.electron.myapp",
-    "productName": "My Electron App",
+    "appId": "com.enginiggers.vyaparMaster",
+    "productName": "Vyapar Master",
+    "copyright": "Copyright © 2024 ${author}",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "models/**/*",
+      "!models/*.db"
     ],
     "directories": {
+      "buildResources": "public",
       "output": "dist"
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "category":"public.app-category.finance",
+      "icon": "build/logo512.png"
+
     },
     "win": {
-      "target": "nsis"
+      "target": "msi",
+      "icon": "build/logo.ico"
     },
     "linux": {
-      "target": "deb"
+      "target": "deb",
+      "icon": "build/logo.ico"
     }
   }
 }

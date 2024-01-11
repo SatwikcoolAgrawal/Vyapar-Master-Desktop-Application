@@ -12,18 +12,19 @@ console.log(isDev);
 function createMainWindow(){
     const mainWindow= new BrowserWindow({
         titleBarStyle:"hidden",
+        show:false,
         titleBarOverlay:{
             color: 'rgb(15,23,42)',
             height:35,
             symbolColor: '#fff',
         },
-        title :"Entry Managment App",
+        title :"Vyapar Master",
         width:1000,
         height:600,
-        minWidth:600,
-        minHeight:400,
+        minWidth:650,
+        minHeight:300,
         webPreferences:{
-            devTools:isDev,
+            devTools:!app.isPackaged,
             nodeIntegration:false,
             contextIsolation:true,
             sandbox:false,
@@ -36,12 +37,13 @@ function createMainWindow(){
 
     const startUrl= app.isPackaged
     ? url.format({
-        pathname: path.join(__dirname, '../build/index.html'),
+        pathname: path.join(__dirname, './index.html'),
         protocol: "file:"
       })
     : "http://localhost:3000";
     
     mainWindow.loadURL(startUrl);
+
     mainWindow.on('ready-to-show',()=>{
         mainWindow.show()
     });
@@ -64,4 +66,8 @@ app.whenReady().then(() => {
 ipc.handle('getAll',(event)=>{
     console.log('hello');
     return 0;
+})
+
+ipc.handle('getPurchaseTotal',(event)=>{
+  return 4000;
 })

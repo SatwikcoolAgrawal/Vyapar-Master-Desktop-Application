@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld('UserAPI',{
     getAllOrders:()=>ipc.invoke('getAll'),
     getOrderDetails: (orderID)=>ipc.invoke('getOrder',orderID),
     makeOrder:(orderDetails)=>ipc.invoke('createOrder',orderDetails),
+    getPurchaseTotal:()=>ipc.invoke('getPurchaseTotal')
 })
