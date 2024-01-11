@@ -32,7 +32,7 @@ function Sidebar() {
         <button
           className={`absolute cursor-pointer -right-3 top-10  bg-white duration-500
            rounded-full  ${!open && "rotate-180"}` }
-          onClick={() => setOpen(!open) } alt="1"
+          onClick={() => setOpen(!open) } alt="navbutton"
         ><IoIosArrowDropleftCircle size="24" className='text-teal-400'/></button>
         <div className="flex gap-x-4 items-center">
           {
@@ -68,6 +68,7 @@ function Sidebar() {
               </NavLink>
           ))}
         </ul>
+
       </div>
      
     

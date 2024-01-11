@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 import Layout from '../layout'
 import Loading from '../loading'
-const Home = lazy(()=>import('../pages/Home')) ;
 const About = lazy(()=>import('../pages/About')) ;
 const Dashboard = lazy(()=>import('../pages/Dashboard')) ;
 const Settings = lazy(()=>import('../pages/Settings')) ;
