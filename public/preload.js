@@ -1,8 +1,9 @@
 const {contextBridge,ipcRenderer}= require('electron')
 const ipc=ipcRenderer
-const {filter}=require('../models')
+const {createProductTable}=require('../models')
 
-// conditions = [
+console.log(createProductTable())
+// let conditions = [
 //     {column : 'ID', operator : '=', value : Number(123)},
 //     {column : 'NAME', operator : 'LIKE', value : '%ABC%'}
 // ]
