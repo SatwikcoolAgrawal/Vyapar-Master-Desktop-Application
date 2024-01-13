@@ -36,10 +36,54 @@ function filter(conditions){
 
 function createProductTable(){
     //Creates Product table if it does not exist in the database
-    const stmt = db.prepare(`CREATE TABLE IF NOT EXISTS PRODUCTS (productID INTEGER PRIMARY KEY, productName TEXT, unitCost REAL)`);
+    //here the unitcost will store the current price of the product
+    const stmt = db.prepare(`CREATE TABLE IF NOT EXISTS PRODUCTS (
+        productId INTEGER PRIMARY KEY, 
+        productName TEXT, 
+        unitPrice REAL
+    )`);
+    console.log(stmt);
     const info = stmt.run();
     //console.log(info.changes)
     return info
 }
 
-module.exports={filter, createProductTable};
+function createTransactionTable(){
+    //create transaction table to store all the details about the transaction
+    const stmt = db.prepare(`CREATE TABLE IF NOT EXISTS TRANSACTIONS (
+        transactionId INTEGER PRIMARY KEY, 
+        name TEXT, 
+        productId INTEGER NOT NULL,
+        unitPriceAtTransaction REAL,
+        quantity REAL, 
+        orderDate DATETIME, 
+        totalPrice REAL, 
+        loadingCharge BOOLEAN, 
+        deliveryLocation TEXT, 
+        payementDueDate DATETIME, 
+        poc TEXT, 
+        pocMobile NUMERIC,
+        dispatchDate DATETIME,
+        paymentStatus BOOLEAN,
+        transactionType BOOLEAN,
+        pullingStatus BOOLEAN,
+        FOREIGN KEY (productId) REFERENCES PRODUCTS (productId)
+    )`);
+    const info = stmt.run();
+    return info;
+}
+
+/*products = {name: 'productName', unitPrice: '123.45'}*/
+function insertProduct(product){
+    const sizeStmt = db.prepare(`SELECT * FROM PRODUCTS`);
+    const sizeInfo = sizeStmt.all();
+    let length = sizeInfo.length
+    
+    const stmt = db.prepare(`INSERT INTO PRODUCTS (productId, productName, unitPrice) VALUES(?, ?, ?)`);
+    const info = stmt.run(length+1, product.name, Number(product.unitPrice));
+    return info
+}
+
+
+
+module.exports={filter, createProductTable, createTransactionTable, insertProduct};

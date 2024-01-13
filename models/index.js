@@ -1,4 +1,4 @@
 const connection=require('./connection')
-const {filter, createProductTable} = require('./queries')
+const {filter, createProductTable, createTransactionTable, insertProduct} = require('./queries')
 
-module.exports={connection, filter, createProductTable};
+module.exports={connection, filter, createProductTable, createTransactionTable, insertProduct};
