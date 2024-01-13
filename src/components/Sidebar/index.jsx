@@ -6,9 +6,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { FaRegUser } from "react-icons/fa";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { IoLogoBuffer } from "react-icons/io";
 import { IoMdAnalytics } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
+import LogoIcon from '../../assets/logo.svg'
 
 function Sidebar() {
     const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ function Sidebar() {
    
       <div
         className={`sidebarContainer ${
-          open ? "w-60" : "w-20"
+          open ? "min-w-60" : "min-w-20"
         } p-5 pt-8 `}
         
       >
@@ -34,17 +34,19 @@ function Sidebar() {
            rounded-full  ${!open && "rotate-180"}` }
           onClick={() => setOpen(!open) } alt="navbutton"
         ><IoIosArrowDropleftCircle size="24" className='text-teal-400'/></button>
-        <div className="flex gap-x-4 items-center">
+        <div className="flex gap-x-4 items-center  duration-200">
           {
             open ? 
-            (<><IoLogoBuffer size="40" color='white'/>
+            (<>
+            <img className="ml-3" src={LogoIcon}  width={50} alt='Vyapar Master' />
             <h1
-              className={`text-white origin-left font-medium text-xl duration-200 ${
+              className={`text-teal-100 origin-left font-medium text-xl duration-200 ${
                 !open && "scale-0"}`}
             >
-              EMA
+              <div className='text-sm font-bold'>Hello,</div>
+              <div className='font-light text-2xl'>Satwik</div>
             </h1></>):
-            (<IoLogoBuffer size="40" color='white'/>)
+            (<img src={LogoIcon}  width={45} alt='Vyapar Master' />)
           }
           
         </div>

@@ -14,7 +14,7 @@ function Visualization({entry}) {
   },[entry])
   
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full duration-0'>
        <Chart 
        options={  
                 { 
@@ -22,7 +22,16 @@ function Visualization({entry}) {
                         foreColor:"#000",
                         id: "history-data",
                         toolbar: {
-                            show:false,
+                            show:true,
+                            tools:{
+                            download: false,
+                            selection: true,
+                            zoom: false,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true
+                            }
+                            
                         }
                         
                     },
@@ -30,7 +39,7 @@ function Visualization({entry}) {
                       enabled: false
                     },
                     xaxis: {
-                        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+                        categories: ["1 jan","2 jan","3 jan","4 jan","5 jan","6 jan","7 jan","8 jan"]
                     },
                     colors:['#14b8a6','#042f2e','#5eead4'],
                     stroke: {

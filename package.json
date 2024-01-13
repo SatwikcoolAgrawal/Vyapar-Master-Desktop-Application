@@ -85,16 +85,16 @@
     "mac": {
       "target": "dmg",
       "category":"public.app-category.finance",
-      "icon": "build/logo512.png"
+      "icon": "build/logo512x512.png"
 
     },
     "win": {
       "target": "msi",
-      "icon": "build/logo.ico"
+      "icon": "build/logo512x512.png"
     },
     "linux": {
       "target": "deb",
-      "icon": "build/logo.ico"
+      "icon": "build/logo512x512.png"
     }
   }
 }
