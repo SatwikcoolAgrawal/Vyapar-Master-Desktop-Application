@@ -4,7 +4,7 @@
     height: calc(100vh - env(titlebar-area-height, var(--fallback-title-bar-height)));
     background: #242c44;
     top:env(titlebar-area-height, var(--fallback-title-bar-height));
-    transition: width 700ms ease;
+    transition: min-width 700ms ease;
 }
 
 .sidebarMenu{
