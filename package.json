@@ -89,8 +89,14 @@
 
     },
     "win": {
-      "target": "msi",
+      "target": ["nsis"],
       "icon": "build/logo512x512.png"
+    },
+    "nsis":{
+      "oneClick":false,
+      "uninstallDisplayName":"Vyapar-Master-uninstaller",
+      "license":"../LICENSE",
+      "allowToChangeInstallationDirectory":false
     },
     "linux": {
       "target": "deb",

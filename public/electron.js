@@ -7,7 +7,7 @@ dotenv.config();
 const isDev=process.env.NODE_ENV ==='DEV'
 // const { session } = require('electron')
 
-console.log(isDev);
+let myWindow=null
 
 function createMainWindow(){
     const mainWindow= new BrowserWindow({
@@ -48,14 +48,15 @@ function createMainWindow(){
         mainWindow.show()
     });
 
+    return mainWindow
 }
 
 
 app.whenReady().then(() => {
-    createMainWindow()
+    myWindow=createMainWindow()
   
     app.on('activate', function () {
-      if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
+      if (BrowserWindow.getAllWindows().length === 0) myWindow =createMainWindow()
     })
   })
   
@@ -70,4 +71,17 @@ ipc.handle('getAll',(event)=>{
 
 ipc.handle('getPurchaseTotal',(event)=>{
   return 4000;
+})
+
+let isSIngleInstance=app.requestSingleInstanceLock()
+
+if (!isSIngleInstance){
+  app.quit()
+}
+
+app.on('second-instance',(event)=>{
+  if (myWindow) {
+    if (myWindow.isMinimized()) myWindow.restore()
+    myWindow.focus()
+  }
 })
