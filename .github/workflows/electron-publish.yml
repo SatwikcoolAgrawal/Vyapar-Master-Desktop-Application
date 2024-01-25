@@ -19,6 +19,8 @@ jobs:
         node-version: latest
     - name: install dependencies
       run: npm install
+      env: 
+        CI: false
     - name: build on mac
       run: npm run publish
     - name: create release
@@ -52,6 +54,8 @@ jobs:
     - name: install dependencies
       run: npm install
     - name: build on win
+      env: 
+        CI: false
       run: npm run publish
     - name: create release
       id: create_release
