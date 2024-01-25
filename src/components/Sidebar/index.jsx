@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,memo} from 'react'
 import './sidebar.css'
 import { NavLink } from 'react-router-dom';
 import { BsClipboardData, } from "react-icons/bs";
@@ -46,7 +46,7 @@ function Sidebar() {
               <div className='text-sm font-bold'>Hello,</div>
               <div className='font-light text-2xl'>Satwik</div>
             </h1></>):
-            (<img src={LogoIcon}  width={45} alt='Vyapar Master' />)
+            (<img src={LogoIcon}  minwidth={45} alt='Vyapar Master' />)
           }
           
         </div>
@@ -77,4 +77,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar;
+export default memo(Sidebar);

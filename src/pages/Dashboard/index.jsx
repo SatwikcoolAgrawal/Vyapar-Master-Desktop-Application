@@ -24,7 +24,7 @@ function History() {
 
   return (
     <div className='p-8 flex-grow bg-slate-700 duration-150'>
-      <div className="flex flex-col h-full max-h-full">
+      <div className="flex flex-col max-h-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-1/5 text-center">
           <div className='px-2 py-4 shadow-md rounded bg-slate-100' onClick={()=>setEntry('sell')}>
             <div className="flex h-full justify-evenly align-top" >

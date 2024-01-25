@@ -1,5 +1,5 @@
 {
-  "name": "entry-management-app",
+  "name": "vyapar-master",
   "version": "1.0.0",
   "description": "Desktop Application for Entry Management &amp; Whatapp API Integration",
   "private": true,
@@ -25,6 +25,7 @@
   },
   "scripts": {
     "package": "npm run build && electron-builder",
+    "publish":"npm run build && electron-builder --publish",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,7 +54,7 @@
     "Entry Management"
   ],
   "author": "team Enginiggers",
-  "license": "ISC",
+  "license": "SEE LICENSE IN ./LICENSE",
   "devDependencies": {
     "@babel/core": "^7.23.7",
     "@babel/preset-react": "^7.23.3",
@@ -84,22 +85,25 @@
     },
     "mac": {
       "target": "dmg",
+      "publish":["github"],
       "category":"public.app-category.finance",
       "icon": "build/logo512x512.png"
 
     },
     "win": {
       "target": ["nsis"],
+      "publish":["github"],
       "icon": "build/logo512x512.png"
     },
     "nsis":{
       "oneClick":false,
       "uninstallDisplayName":"Vyapar-Master-uninstaller",
       "license":"../LICENSE",
-      "allowToChangeInstallationDirectory":false
+      "allowToChangeInstallationDirectory":true
     },
     "linux": {
       "target": "deb",
+      "publish":["github"],
       "icon": "build/logo512x512.png"
     }
   }
