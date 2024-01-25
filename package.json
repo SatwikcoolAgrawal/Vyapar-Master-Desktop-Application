@@ -25,7 +25,6 @@
   },
   "scripts": {
     "package": "npm run build && electron-builder",
-    "publish":"npm run build && electron-builder --publish",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -71,7 +70,7 @@
   },
   "build": {
     "appId": "com.enginiggers.vyaparMaster",
-    "productName": "Vyapar Master",
+    "productName": "Vyapar-Master",
     "copyright": "Copyright © 2024 ${author}",
     "files": [
       "build/**/*",
@@ -85,25 +84,24 @@
     },
     "mac": {
       "target": "dmg",
-      "publish":["github"],
+      "artifactName":"${productName}-Setup-mac-${version}.${ext}",
       "category":"public.app-category.finance",
       "icon": "build/logo512x512.png"
 
     },
     "win": {
       "target": ["nsis"],
-      "publish":["github"],
       "icon": "build/logo512x512.png"
     },
     "nsis":{
       "oneClick":false,
       "uninstallDisplayName":"Vyapar-Master-uninstaller",
+      "artifactName":"${productName}-Setup-win-${version}.${ext}",
       "license":"../LICENSE",
       "allowToChangeInstallationDirectory":true
     },
     "linux": {
       "target": "deb",
-      "publish":["github"],
       "icon": "build/logo512x512.png"
     }
   }
