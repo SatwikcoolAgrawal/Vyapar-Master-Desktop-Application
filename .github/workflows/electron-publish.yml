@@ -39,8 +39,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./electron-app-mac.zip
-        asset_name: electron-app-mac.zip
+        asset_path: ./vyapar-master-mac.zip
+        asset_name: vyapar-master-mac.zip
         asset_content_type: application/zip
   build_on_win:
     runs-on: windows-latest
@@ -56,7 +56,7 @@ jobs:
     - name: build on win
       env: 
         CI: false
-      run: npm run publish
+      run: npm run package
     - name: create release
       id: create_release
       uses: actions/create-release@v1
@@ -73,6 +73,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./electron-app-win.zip
-        asset_name: electron-app-win.zip
+        asset_path: ./vyapar-master-win.zip
+        asset_name: vyapar-master-win.zip
         asset_content_type: application/zip
