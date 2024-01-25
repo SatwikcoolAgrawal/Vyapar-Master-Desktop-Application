@@ -1,10 +1,10 @@
 # name of your github action
-name: Publis-Electron-Application
+name: publish electron application
 # this will help you specify where to run 
 on:
   push:
     branches:
-    # this will run on the electron branch
+    # this will run on the main branch
       - main
 # this is where the magic happens, each job happens in parallel btw
 jobs:
@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        ref: electron
+        ref: main
     - uses: actions/setup-node@master
       with:
         node-version: latest
@@ -21,29 +21,86 @@ jobs:
       run: npm install
     - name: build on mac
       run: npm run publish
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./electron-app-mac.zip
+        asset_name: electron-app-mac.zip
+        asset_content_type: application/zip
   build_on_win:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@master
       with:
-        ref: feature/github-actions        
+        ref: main       
     - uses: actions/setup-node@master
       with:
         node-version: latest
     - name: install dependencies
       run: npm install
-    - name: build on mac
+    - name: build on win
       run: npm run publish
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./electron-app-win.zip
+        asset_name: electron-app-win.zip
+        asset_content_type: application/zip
   build_on_linux:
     runs-on: linux-latest
     steps:
     - uses: actions/checkout@master
       with:
-        ref: feature/github-actions        
+        ref: main       
     - uses: actions/setup-node@master
       with:
         node-version: latest
     - name: install dependencies
       run: npm install
-    - name: build on mac
+    - name: build on linux
       run: npm run publish
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name:  ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./electron-app-linux.zip
+        asset_name: electron-app-linux.zip
+        asset_content_type: application/zip
