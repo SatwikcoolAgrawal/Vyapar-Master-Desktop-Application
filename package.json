@@ -25,7 +25,7 @@
   },
   "scripts": {
     "package": "npm run build && electron-builder",
-    "publish":"npm run build && electron-builder --publish",
+    "publish":"CI=false && npm run build && electron-builder --publish",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
