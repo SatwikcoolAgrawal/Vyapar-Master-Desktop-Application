@@ -6,6 +6,8 @@ on:
     branches:
       # this will run on the main branch
       - main
+    tags:
+      - 'v*.*.*'  
 
 # this is where the magic happens, each job happens in parallel btw
 
@@ -19,8 +21,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.0
-        release_name: Release v1.0.0
+        tag_name: ${{github.ref_name}}
+        release_name: Release ${{github.ref_name}}
         draft: false
         prerelease: false   
     outputs:
