@@ -27,7 +27,7 @@ jobs:
       release_url: ${{steps.create_release.outputs.upload_url}}    
   build_on_mac:
     runs-on: macOS-latest
-    needs: ["create_release"]
+    needs: ["create_release_job"]
     steps:
     - uses: actions/checkout@master
       with:
@@ -54,7 +54,7 @@ jobs:
   
   build_on_win:
     runs-on: windows-latest
-    needs: ["create_release"]
+    needs: ["create_release_job"]
     steps:
     - uses: actions/checkout@master
       with:
