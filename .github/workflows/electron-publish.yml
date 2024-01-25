@@ -10,7 +10,7 @@ on:
 # this is where the magic happens, each job happens in parallel btw
 
 jobs:
-  create_release:
+  create_release_job:
     runs-on: windows-latest
     steps:
     - name: create release
@@ -22,10 +22,12 @@ jobs:
         tag_name: v1.0.0
         release_name: Release v1.0.0
         draft: false
-        prerelease: false     
+        prerelease: false   
+    outputs:
+      release_url: ${{steps.create_release.outputs.upload_url}}    
   build_on_mac:
     runs-on: macOS-latest
-    needs: ["create_release"]
+    needs: ["create_release_job"]
     steps:
     - uses: actions/checkout@master
       with:
@@ -45,14 +47,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ needs.create_release_job.outputs.release_url }}
         asset_path: ./dist/vyapar-master-setup-mac.dmg
         asset_name: vyapar-master-setup-mac.dmg  # Adjust based on your actual setup file name
         asset_content_type: application/x-diskcopy  # Adjust based on your setup file's content type
   
   build_on_win:
     runs-on: windows-latest
-    needs: ["create_release"]
+    needs: ["create_release_job"]
     steps:
     - uses: actions/checkout@master
       with:
@@ -71,7 +73,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ needs.create_release_job.outputs.release_url }}
         asset_path: ./dist/vyapar-master-setup-win.exe
         asset_name: vyapar-master-setup-win.exe  # Adjust based on your actual setup file name
         asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type
