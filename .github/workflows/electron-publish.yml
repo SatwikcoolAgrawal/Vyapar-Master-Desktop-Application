@@ -6,10 +6,6 @@ on:
     branches:
     # this will run on the electron branch
       - main
-  pull_request:
-    types:
-      - closed
-
 # this is where the magic happens, each job happens in parallel btw
 jobs:
   build_on_mac:
@@ -25,7 +21,7 @@ jobs:
       run: npm install
     - name: build on mac
       run: npm run publish
-build_on_win:
+  build_on_win:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@master
@@ -38,7 +34,7 @@ build_on_win:
       run: npm install
     - name: build on mac
       run: npm run publish
-build_on_linux:
+  build_on_linux:
     runs-on: linux-latest
     steps:
     - uses: actions/checkout@master
