@@ -1,91 +1,81 @@
+# name of your github action
 name: publish electron application
-
+# this will help you specify where to run 
 on:
   push:
     branches:
+      # this will run on the main branch
       - main
 
+# this is where the magic happens, each job happens in parallel btw
 jobs:
   build_on_mac:
     runs-on: macOS-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: main
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build on macOS
-        env:
-          CI: false
-        run: npm run package
-
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v1.0.0-mac
-          release_name: Release v1.0.0 for macOS
-          draft: false
-          prerelease: false
-
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/vyapar-master-setup-mac.dmg
-          asset_name: vyapar-master-setup-mac.dmg
-          asset_content_type: application/x-diskcopy
+    - uses: actions/checkout@master
+      with:
+        ref: main
+    - uses: actions/setup-node@master
+      with:
+        node-version: latest
+    - name: install dependencies
+      run: npm install
+     
+    - name: build on mac
+      run: npm run package
+      env: 
+        CI: false
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.0
+        release_name: Release v1.0.0
+        draft: false
+        prerelease: false
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/vyapar-master-setup-mac.dmg
+        asset_name: vyapar-master-setup-mac.dmg  # Adjust based on your actual setup file name
+        asset_content_type: application/x-diskcopy  # Adjust based on your setup file's content type
 
   build_on_win:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: main
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build on Windows
-        env:
-          CI: false
-        run: npm run package
-
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v1.0.0-win
-          release_name: Release v1.0.0 for Windows
-          draft: false
-          prerelease: false
-
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/vyapar-master-setup-win.exe
-          asset_name: vyapar-master-setup-win.exe
-          asset_content_type: application/x-msdownload
+    - uses: actions/checkout@master
+      with:
+        ref: main       
+    - uses: actions/setup-node@master
+      with:
+        node-version: latest
+    - name: install dependencies
+      run: npm install
+    - name: build on win
+      env: 
+        CI: false
+      run: npm run package
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.0
+        release_name: Release v1.0.0
+        draft: false
+        prerelease: false
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/vyapar-master-setup-win.exe
+        asset_name: vyapar-master-setup-win.exe  # Adjust based on your actual setup file name
+        asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type
