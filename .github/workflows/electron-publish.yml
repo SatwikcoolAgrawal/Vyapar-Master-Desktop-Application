@@ -8,23 +8,11 @@ on:
       - main
 
 # this is where the magic happens, each job happens in parallel btw
+
 jobs:
-  build_on_mac:
-    runs-on: macOS-latest
+  create_release:
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@master
-      with:
-        ref: main
-    - uses: actions/setup-node@master
-      with:
-        node-version: latest
-    - name: install dependencies
-      run: npm install
-     
-    - name: build on mac
-      run: npm run package
-      env: 
-        CI: false
     - name: create release
       id: create_release
       uses: actions/create-release@v1
@@ -34,19 +22,37 @@ jobs:
         tag_name: v1.0.0
         release_name: Release v1.0.0
         draft: false
-        prerelease: false
+        prerelease: false     
+  build_on_mac:
+    runs-on: macOS-latest
+    needs: ["create_release"]
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: main
+    - uses: actions/setup-node@master
+      with:
+        node-version: latest
+    - name: install dependencies
+      run: npm install
+
+    - name: build on mac
+      run: npm run package
+      env: 
+        CI: false
     - name: upload release asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ jobs.create_release.outputs.upload_url }}
         asset_path: ./dist/vyapar-master-setup-mac.dmg
         asset_name: vyapar-master-setup-mac.dmg  # Adjust based on your actual setup file name
         asset_content_type: application/x-diskcopy  # Adjust based on your setup file's content type
-
+  
   build_on_win:
     runs-on: windows-latest
+    needs: ["create_release"]
     steps:
     - uses: actions/checkout@master
       with:
@@ -60,22 +66,12 @@ jobs:
       env: 
         CI: false
       run: npm run package
-    - name: create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v1.0.0
-        release_name: Release v1.0.0
-        draft: false
-        prerelease: false
     - name: upload release asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ jobs.create_release.outputs.upload_url }}
         asset_path: ./dist/vyapar-master-setup-win.exe
         asset_name: vyapar-master-setup-win.exe  # Adjust based on your actual setup file name
         asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type
