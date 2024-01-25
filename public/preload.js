@@ -1,9 +1,9 @@
 const {contextBridge,ipcRenderer}= require('electron')
 const ipc=ipcRenderer
-const {createProductTable, createTransactionTable, insertProduct}=require('../models')
+const {createProductTable, createTransactionTable, insertProduct,selectProduct}=require('../models')
 
-// console.log(createProductTable())
-// console.log(createTransactionTable())
+createProductTable()
+createTransactionTable()
 
 // let product = {name: 'ABC', unitPrice: '123.45'};
 // console.log(insertProduct(product))
@@ -18,5 +18,7 @@ contextBridge.exposeInMainWorld('UserAPI',{
     getAllOrders:()=>ipc.invoke('getAll'),
     getOrderDetails: (orderID)=>ipc.invoke('getOrder',orderID),
     makeOrder:(orderDetails)=>ipc.invoke('createOrder',orderDetails),
-    getPurchaseTotal:()=>ipc.invoke('getPurchaseTotal')
+    getPurchaseTotal:()=>ipc.invoke('getPurchaseTotal'),
+    addProduct:(data)=>insertProduct(data),
+    fetchProducts:()=>selectProduct()
 })

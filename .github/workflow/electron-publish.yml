@@ -1,0 +1,49 @@
+# name of your github action
+name: Publishing-Electron-Application
+# this will help you specify where to run 
+on:
+  push:
+    branches:
+    # this will run on the electron branch
+      - main
+# this is where the magic happens, each job happens in parallel btw
+jobs:
+  build_on_mac:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: electron
+    - uses: actions/setup-node@master
+      with:
+        node-version: latest
+    - name: install dependencies
+      run: npm install
+    - name: build on mac
+      run: npm run publish
+build_on_win:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: feature/github-actions        
+    - uses: actions/setup-node@master
+      with:
+        node-version: latest
+    - name: install dependencies
+      run: npm install
+    - name: build on mac
+      run: npm run publish
+build_on_linux:
+    runs-on: linux-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: feature/github-actions        
+    - uses: actions/setup-node@master
+      with:
+        node-version: latest
+    - name: install dependencies
+      run: npm install
+    - name: build on mac
+      run: npm run publish

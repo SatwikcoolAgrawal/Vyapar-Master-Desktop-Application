@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{memo} from 'react'
 import './titlebar.css'
 
 function Titlebar() {
@@ -15,4 +15,4 @@ function Titlebar() {
   )
 }
 
-export default Titlebar
+export default memo(Titlebar)
