@@ -45,7 +45,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ jobs.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/vyapar-master-setup-mac.dmg
         asset_name: vyapar-master-setup-mac.dmg  # Adjust based on your actual setup file name
         asset_content_type: application/x-diskcopy  # Adjust based on your setup file's content type
@@ -71,7 +71,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ jobs.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/vyapar-master-setup-win.exe
         asset_name: vyapar-master-setup-win.exe  # Adjust based on your actual setup file name
         asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type
