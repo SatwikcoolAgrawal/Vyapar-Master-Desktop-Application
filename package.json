@@ -70,7 +70,7 @@
   },
   "build": {
     "appId": "com.enginiggers.vyaparMaster",
-    "productName": "Vyapar-Master",
+    "productName": "vyapar-master",
     "copyright": "Copyright © 2024 ${author}",
     "files": [
       "build/**/*",
@@ -84,7 +84,7 @@
     },
     "mac": {
       "target": "dmg",
-      "artifactName":"${productName}-Setup-mac-${version}.${ext}",
+      "artifactName":"${productName}-setup-mac.${ext}",
       "category":"public.app-category.finance",
       "icon": "build/logo512x512.png"
 
@@ -95,8 +95,8 @@
     },
     "nsis":{
       "oneClick":false,
-      "uninstallDisplayName":"Vyapar-Master-uninstaller",
-      "artifactName":"${productName}-Setup-win-${version}.${ext}",
+      "uninstallDisplayName":"vyapar-master-uninstaller",
+      "artifactName":"${productName}-setup-win.${ext}",
       "license":"../LICENSE",
       "allowToChangeInstallationDirectory":true
     },
