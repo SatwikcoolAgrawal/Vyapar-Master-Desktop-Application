@@ -1,39 +1,43 @@
-# name of your github action
 name: publish electron application
-# this will help you specify where to run 
+
+# Define a global environment variable to store the build version
+env:
+  BUILD_VERSION: ${{ secrets.BUILD_VERSION }}
+
+# Specify the events that will trigger this workflow
 on:
   push:
     branches:
-      # this will run on the main branch
+      # This will run on the main branch
       - main
     tags:
+      # This will run on version tags following the pattern v*.*.*
       - 'v*.*.*'  
-
-# this is where the magic happens, each job happens in parallel btw
 
 jobs:
   create_release_job:
     runs-on: windows-latest
     steps:
-    - name: list file
-      id: listfile
-      run: dir
-    - name: Extract version from package.json
-      id: extract_version
-      run: echo "::set-output name=version::$(grep -o '"version":"[^"]*"'  Vyapar-Master-Desktop-Application/package.json | awk -F'"' '{print $4}')"
+    - name: Retrieve stored build version
+      id: get_build_version
+      run: echo "::set-output name=BUILD_VERSION::${{ secrets.BUILD_VERSION }}"
+    - name: Update build version
+      run: echo "BUILD_VERSION=$((BUILD_VERSION + 1))" >> $GITHUB_ENV
+    - name: Display build version
+      run: echo "Build version:$BUILD_VERSION"
     - name: create release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v${{ steps.extract_version.outputs.version }}
-        release_name: Release v${{ steps.extract_version.outputs.version }}
+        tag_name: v${{ env.BUILD_VERSION }}
+        release_name: Release v${{ env.BUILD_VERSION }}
         draft: false
         prerelease: false   
     outputs:
-      release_url: ${{steps.create_release.outputs.upload_url}}    
-  build_on_mac:
+      release_url: ${{ steps.create_release.outputs.upload_url }}  
+   build_on_mac:
     runs-on: macOS-latest
     needs: ["create_release_job"]
     steps:
@@ -59,7 +63,6 @@ jobs:
         asset_path: ./dist/vyapar-master-setup-mac.dmg
         asset_name: vyapar-master-setup-mac.dmg  # Adjust based on your actual setup file name
         asset_content_type: application/x-diskcopy  # Adjust based on your setup file's content type
-  
   build_on_win:
     runs-on: windows-latest
     needs: ["create_release_job"]
@@ -84,4 +87,15 @@ jobs:
         upload_url: ${{ needs.create_release_job.outputs.release_url }}
         asset_path: ./dist/vyapar-master-setup-win.exe
         asset_name: vyapar-master-setup-win.exe  # Adjust based on your actual setup file name
-        asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type
+        asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type    
+  update_build_version:
+    runs-on: windows-latest
+    needs: create_release_job
+    if: success()
+    steps:
+    - name: Store updated build version
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+    - name: Set build version as a secret
+      run: echo "BUILD_VERSION=${{ env.BUILD_VERSION }}" >> $GITHUB_ENV
