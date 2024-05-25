@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Extract version from package.json
       id: extract_version
-      run: echo "::set-output name=version::$(grep -o '"version":"[^"]*"' package.json | awk -F'"' '{print $4}')"
+      run: echo "::set-output name=version::$(grep -o '"version":"[^"]*"'  $GITHUB_WORKSPACE/package.json | awk -F'"' '{print $4}')"
     - name: create release
       id: create_release
       uses: actions/create-release@v1
