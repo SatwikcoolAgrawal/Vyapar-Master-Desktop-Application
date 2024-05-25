@@ -98,4 +98,4 @@ jobs:
       with:
         node-version: '14'
     - name: Set build version as a secret
-      run: echo "BUILD_VERSION=${{ env.BUILD_VERSION + 1 }}" >> $GITHUB_ENV
+      run: echo "BUILD_VERSION=(${{ env.BUILD_VERSION }} + 1 )" >> $GITHUB_ENV
