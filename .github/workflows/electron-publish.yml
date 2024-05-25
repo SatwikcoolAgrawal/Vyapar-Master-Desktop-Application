@@ -13,7 +13,7 @@ on:
     tags:
       # This will run on version tags following the pattern v*.*.*
       - 'v*.*.*'  
-
+      
 jobs:
   create_release_job:
     runs-on: windows-latest
@@ -37,7 +37,7 @@ jobs:
         prerelease: false   
     outputs:
       release_url: ${{ steps.create_release.outputs.upload_url }}  
-   build_on_mac:
+  build_on_mac:
     runs-on: macOS-latest
     needs: ["create_release_job"]
     steps:
