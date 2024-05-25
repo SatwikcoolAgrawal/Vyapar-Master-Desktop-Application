@@ -22,7 +22,7 @@ jobs:
       id: get_build_version
       run: echo "::set-output name=BUILD_VERSION::${{ secrets.BUILD_VERSION }}"
     - name: Update build version
-      run: echo "BUILD_VERSION=$((BUILD_VERSION + 1))" >> $GITHUB_ENV
+      run: echo "BUILD_VERSION=$(BUILD_VERSION)" >> $GITHUB_ENV
     - name: Display build version
       run: echo "Build version:$BUILD_VERSION"
     - name: create release
@@ -98,4 +98,4 @@ jobs:
       with:
         node-version: '14'
     - name: Set build version as a secret
-      run: echo "BUILD_VERSION=${{ env.BUILD_VERSION }}" >> $GITHUB_ENV
+      run: echo "BUILD_VERSION=${{ env.BUILD_VERSION + 1 }}" >> $GITHUB_ENV
