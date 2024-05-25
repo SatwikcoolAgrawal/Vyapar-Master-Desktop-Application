@@ -15,9 +15,12 @@ jobs:
   create_release_job:
     runs-on: windows-latest
     steps:
+    - name: list file
+      id: listfile
+      run: dir
     - name: Extract version from package.json
       id: extract_version
-      run: echo "::set-output name=version::$(grep -o '"version":"[^"]*"'  $GITHUB_WORKSPACE/package.json | awk -F'"' '{print $4}')"
+      run: echo "::set-output name=version::$(grep -o '"version":"[^"]*"'  Vyapar-Master-Desktop-Application/package.json | awk -F'"' '{print $4}')"
     - name: create release
       id: create_release
       uses: actions/create-release@v1
