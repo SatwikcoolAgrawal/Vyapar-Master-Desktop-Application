@@ -1,26 +1,24 @@
+# name of your github action
 name: publish electron application
-
-# Specify the events that will trigger this workflow
+# this will help you specify where to run 
 on:
   push:
     branches:
-      # This will run on the main branch
+      # this will run on the main branch
       - main
     tags:
-      # This will run on version tags following the pattern v*.*.*
       - 'v*.*.*'  
 
-# Define the jobs
+# this is where the magic happens, each job happens in parallel btw
+
 jobs:
   create_release_job:
     runs-on: windows-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
     - name: Extract version from package.json
       id: extract_version
-      run: echo "::set-output name=version::$(node -p -e \"require('./package.json').version\")"
-    - name: Create release
+      run: echo "::set-output name=version::$(grep -o '"version":"[^"]*"' package.json | awk -F'"' '{print $4}')"
+    - name: create release
       id: create_release
       uses: actions/create-release@v1
       env:
@@ -29,62 +27,58 @@ jobs:
         tag_name: v${{ steps.extract_version.outputs.version }}
         release_name: Release v${{ steps.extract_version.outputs.version }}
         draft: false
-        prerelease: false
+        prerelease: false   
     outputs:
-      release_url: ${{ steps.create_release.outputs.upload_url }}
-
+      release_url: ${{steps.create_release.outputs.upload_url}}    
   build_on_mac:
     runs-on: macOS-latest
-    needs: create_release_job
+    needs: ["create_release_job"]
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@master
       with:
         ref: main
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - uses: actions/setup-node@master
       with:
         node-version: latest
-    - name: Install dependencies
+    - name: install dependencies
       run: npm install
-    - name: Build on Mac
+
+    - name: build on mac
       run: npm run package
       env: 
         CI: false
-    - name: Upload release asset
+    - name: upload release asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release_job.outputs.release_url }}
         asset_path: ./dist/vyapar-master-setup-mac.dmg
-        asset_name: vyapar-master-setup-mac.dmg
-        asset_content_type: application/x-apple-diskimage
-
+        asset_name: vyapar-master-setup-mac.dmg  # Adjust based on your actual setup file name
+        asset_content_type: application/x-diskcopy  # Adjust based on your setup file's content type
+  
   build_on_win:
     runs-on: windows-latest
-    needs: create_release_job
+    needs: ["create_release_job"]
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@master
       with:
-        ref: main
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+        ref: main       
+    - uses: actions/setup-node@master
       with:
         node-version: latest
-    - name: Install dependencies
+    - name: install dependencies
       run: npm install
-    - name: Build on Windows
-      run: npm run package
+    - name: build on win
       env: 
         CI: false
-    - name: Upload release asset
+      run: npm run package
+    - name: upload release asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release_job.outputs.release_url }}
         asset_path: ./dist/vyapar-master-setup-win.exe
-        asset_name: vyapar-master-setup-win.exe
-        asset_content_type: application/x-msdownload
+        asset_name: vyapar-master-setup-win.exe  # Adjust based on your actual setup file name
+        asset_content_type: application/x-msdownload  # Adjust based on your setup file's content type
